@@ -53,8 +53,20 @@ class Browser {
     this.TransmissionSpeed = speed
   }
 
+  public setSize(width: number, height: number): void {
+    this.browser.setSize(width, height)
+  }
+
+  public loadURL(url: string): void {
+    this.browser.loadURL(url)
+  }
+
   public GetBrowser(): BrowserWindow {
-    return this.browser
+    if (this.browser) {
+      return this.browser
+    } else {
+      return null
+    }
   }
 }
 

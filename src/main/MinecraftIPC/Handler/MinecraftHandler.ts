@@ -1,16 +1,21 @@
 import browser from '../../index'
 
+/*eslint-disable */
 const MinecraftHandler = {
-  /**
-   * Set frame rate transmission speed
-   */
-  setFrameRate(s: number) {
-    browser.setTransmissionSpeed(s)
+  setBrowserSize(data: { width: number; height: number }) {
+    const { width, height } = data;
+    browser.setSize(width, height);
   },
-  OpenDevTools(_data: never): void {
+  loadUrl(s: string) {
+    browser.loadURL(s);
+  },
+  setFrameRate(s: string) {
+    browser.setTransmissionSpeed(Number(s));
+  },
+  openDevTools(_data: never): void {
     browser.GetBrowser().webContents.openDevTools({
-      mode: 'detach'
-    })
+      mode: "detach"
+    });
   }
-}
-export default MinecraftHandler
+};
+export default MinecraftHandler;

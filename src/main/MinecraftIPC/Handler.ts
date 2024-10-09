@@ -8,7 +8,7 @@ export interface iHandler {
 }
 
 export default function Handler(iHandler: iHandler): never {
-  if (iHandler.Reach === 'Minecraft') {
+  if (iHandler.ComeFrom === 'Minecraft') {
     return MinecraftHandler[iHandler.Type](iHandler.Data)
   } else {
     throw new Error('Handler not found')
