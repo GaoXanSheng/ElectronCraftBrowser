@@ -11,9 +11,9 @@ class Browser {
     x: 0,
     y: 0,
     title: 'ElectronCraftBrowser',
-    resizable: false,
+    resizable: true,
     alwaysOnTop: false,
-    skipTaskbar: false,
+    skipTaskbar: true,
     frame: true,
     show: true,
     transparent: true,
@@ -25,7 +25,7 @@ class Browser {
     }
   })
   private Event = new Event(this.browser)
-  private TransmissionSpeed: number = 24
+  private TransmissionSpeed: number = 60
 
   constructor() {
     if (is.dev && process.env['ELECTRON_RENDERER_URL']) {
@@ -43,8 +43,8 @@ class Browser {
       IPCHandler({
         Reach: 'Minecraft',
         ComeFrom: 'Node',
-        Type: 'render',
-        Data: imageData
+        Type: 'Render',
+        Data: Buffer.from(imageData).toString('base64')
       })
     }, 1000 / this.TransmissionSpeed)
   }

@@ -6,6 +6,11 @@ const MinecraftHandler = {
    */
   setFrameRate(s: number) {
     browser.setTransmissionSpeed(s)
+  },
+  OpenDevTools(_data: never): void {
+    browser.GetBrowser().webContents.openDevTools({
+      mode: 'detach'
+    })
   }
 }
 export default MinecraftHandler
