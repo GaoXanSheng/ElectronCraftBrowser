@@ -2,30 +2,28 @@ import { join } from 'path'
 import { BrowserWindow } from 'electron'
 import Event from './Event'
 import { is } from '@electron-toolkit/utils'
-import IPCHandler from '../MinecraftIPC/createIPCServer'
 
 class Browser {
   private browser = new BrowserWindow({
-    width: 600,
-    height: 400,
+    width: 0,
+    height: 0,
     x: 0,
     y: 0,
     title: 'ElectronCraftBrowser',
-    resizable: true,
-    alwaysOnTop: false,
+    opacity: 1,
+    resizable: false,
     skipTaskbar: true,
-    frame: true,
-    show: true,
+    alwaysOnTop: true,
     transparent: true,
+    frame: false,
     autoHideMenuBar: true,
     webPreferences: {
+      backgroundThrottling: false,
       preload: join(__dirname, '../preload/index.js'),
       sandbox: false,
       autoplayPolicy: 'no-user-gesture-required'
     }
   })
-  private Event = new Event(this.browser)
-  private TransmissionSpeed: number = 60
 
   constructor() {
     if (is.dev && process.env['ELECTRON_RENDERER_URL']) {
@@ -37,24 +35,16 @@ class Browser {
     } else {
       this.browser.loadFile(join(__dirname, '../renderer/index.html')).then(() => {})
     }
-    import('../MinecraftIPC/createIPCServer')
-    setInterval(async () => {
-      const imageData = await (await this.browser.webContents.capturePage()).toPNG()
-      IPCHandler({
-        Reach: 'Minecraft',
-        ComeFrom: 'Node',
-        Type: 'Render',
-        Data: Buffer.from(imageData).toString('base64')
-      })
-    }, 1000 / this.TransmissionSpeed)
-  }
-
-  public setTransmissionSpeed(speed: number): void {
-    this.TransmissionSpeed = speed
+    new Event(this.browser)
   }
 
   public setSize(width: number, height: number): void {
-    this.browser.setSize(width, height)
+    this.browser.setContentBounds({
+      width,
+      height,
+      x: 0,
+      y: 0
+    })
   }
 
   public loadURL(url: string): void {
@@ -62,11 +52,7 @@ class Browser {
   }
 
   public GetBrowser(): BrowserWindow {
-    if (this.browser) {
-      return this.browser
-    } else {
-      return null
-    }
+    return this.browser
   }
 }
 

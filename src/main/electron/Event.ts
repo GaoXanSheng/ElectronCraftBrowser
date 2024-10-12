@@ -1,4 +1,5 @@
 import { BrowserWindow, shell } from 'electron'
+import { server } from '../index'
 
 class Event {
   browser: BrowserWindow
@@ -25,11 +26,25 @@ class Event {
   }
 
   private EnterHtmlFullScreen(): void {
-    this.browser.on('enter-html-full-screen', () => {})
+    this.browser.on('enter-html-full-screen', () => {
+      server.sendHandler({
+        ComeFrom: 'Node',
+        Data: '',
+        Reach: 'Minecraft',
+        Type: 'EnterFullScreen'
+      })
+    })
   }
 
   private LeaveHtmlFullScreen(): void {
-    this.browser.on('leave-html-full-screen', () => {})
+    this.browser.on('leave-html-full-screen', () => {
+      server.sendHandler({
+        ComeFrom: 'Node',
+        Data: '',
+        Reach: 'Minecraft',
+        Type: 'LeaveFullScreen'
+      })
+    })
   }
 }
 
