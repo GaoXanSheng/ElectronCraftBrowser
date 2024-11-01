@@ -46,6 +46,7 @@ class Server {
   }
 
   private Handler(iHandler: iHandler): void {
+    logger.info(JSON.stringify(iHandler))
     if (iHandler.ComeFrom === 'Minecraft') {
       MinecraftHandler[iHandler.Type](iHandler.Data)
     } else {

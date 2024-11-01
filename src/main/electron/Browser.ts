@@ -1,12 +1,12 @@
 import { join } from 'path'
-import { BrowserWindow } from 'electron'
+import { BrowserWindow, screen } from 'electron'
 import Event from './Event'
 import { is } from '@electron-toolkit/utils'
 
 class Browser {
   private browser = new BrowserWindow({
-    width: 0,
-    height: 0,
+    width: 1,
+    height: 1,
     x: 0,
     y: 0,
     title: 'ElectronCraftBrowser',
@@ -15,7 +15,13 @@ class Browser {
     skipTaskbar: true,
     alwaysOnTop: true,
     transparent: true,
+    focusable: false,
+    modal: true,
     frame: false,
+    // roundedCorners: false,
+    thickFrame: true,
+    hasShadow: false,
+    fullscreenable: false,
     autoHideMenuBar: true,
     webPreferences: {
       backgroundThrottling: false,
@@ -36,15 +42,22 @@ class Browser {
       this.browser.loadFile(join(__dirname, '../renderer/index.html')).then(() => {})
     }
     new Event(this.browser)
+    this.setIgnoreMouseEvents(false)
   }
 
   public setSize(width: number, height: number): void {
+    const primaryDisplay = screen.getPrimaryDisplay()
+    const scaleFactor = primaryDisplay.scaleFactor
     this.browser.setContentBounds({
-      width,
-      height,
+      height: height / scaleFactor,
+      width: width / scaleFactor,
       x: 0,
       y: 0
     })
+  }
+
+  public setIgnoreMouseEvents(b: boolean): void {
+    this.browser.setIgnoreMouseEvents(b, { forward: b })
   }
 
   public loadURL(url: string): void {
