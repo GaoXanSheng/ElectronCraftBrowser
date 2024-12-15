@@ -15,11 +15,11 @@ class Browser {
     skipTaskbar: true,
     alwaysOnTop: true,
     transparent: true,
-    focusable: false,
+    focusable: true,
     modal: true,
     frame: false,
     // roundedCorners: false,
-    thickFrame: true,
+    thickFrame: false,
     hasShadow: false,
     fullscreenable: false,
     autoHideMenuBar: true,
@@ -32,6 +32,12 @@ class Browser {
   })
 
   constructor() {
+    this.loadFile()
+    new Event(this.browser)
+    // this.setIgnoreMouseEvents(true)
+  }
+
+  public loadFile(): void {
     if (is.dev && process.env['ELECTRON_RENDERER_URL']) {
       this.browser.loadURL(process.env['ELECTRON_RENDERER_URL']).then(() => {
         this.browser.webContents.openDevTools({
@@ -41,8 +47,6 @@ class Browser {
     } else {
       this.browser.loadFile(join(__dirname, '../renderer/index.html')).then(() => {})
     }
-    new Event(this.browser)
-    this.setIgnoreMouseEvents(false)
   }
 
   public setSize(width: number, height: number): void {

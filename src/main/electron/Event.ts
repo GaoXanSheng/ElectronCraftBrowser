@@ -1,4 +1,4 @@
-import { BrowserWindow, shell } from 'electron'
+import { BrowserWindow, ipcMain, shell } from 'electron'
 import { server } from '../index'
 
 class Event {
@@ -10,6 +10,34 @@ class Event {
     this.setWindowOpenHandler()
     this.EnterHtmlFullScreen()
     this.LeaveHtmlFullScreen()
+    this.KeyBored()
+  }
+
+  private KeyBored(): void {
+    ipcMain.on('keyUp', (_e, data: { key: string; code: string }) => {
+      server.sendHandler({
+        ComeFrom: 'Node',
+        Data: {
+          key: data.key,
+          code: data.code,
+          type: 'keyUp'
+        },
+        Reach: 'Minecraft',
+        Type: 'KeyBored'
+      })
+    })
+    ipcMain.on('keyDown', (_e, data: { key: string; code: string }) => {
+      server.sendHandler({
+        ComeFrom: 'Node',
+        Data: {
+          key: data.key,
+          code: data.code,
+          type: 'keyDown'
+        },
+        Reach: 'Minecraft',
+        Type: 'KeyBored'
+      })
+    })
   }
 
   private readyToShow(): void {

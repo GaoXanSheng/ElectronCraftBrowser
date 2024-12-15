@@ -6,7 +6,7 @@ export interface iHandler {
   Reach: 'Minecraft' | 'Node'
   ComeFrom: 'Minecraft' | 'Node'
   Type: string
-  Data
+  Data: any
 }
 
 class Server {

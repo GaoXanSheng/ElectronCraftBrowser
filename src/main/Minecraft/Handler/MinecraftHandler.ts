@@ -11,11 +11,19 @@ const MinecraftHandler = {
     if (browser == null) return;
     browser.loadURL(s);
   },
+  loadFile() {
+    if (browser == null) return;
+    browser.loadFile();
+  },
   openDevTools(_data: never): void {
     if (browser == null) return;
     browser.GetBrowser().webContents.openDevTools({
       mode: "detach"
     });
+  },
+  setIgnoreMouseEvents(b: string) {
+    if (browser == null) return;
+    browser.setIgnoreMouseEvents(b.toLowerCase() === "true");
   },
   BrowserInit(_data: never) {
     if (browserInit) {

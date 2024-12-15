@@ -20,3 +20,20 @@ if (process.contextIsolated) {
   // @ts-ignore (define in dts)
   window.api = api
 }
+document.addEventListener('DOMContentLoaded', function () {
+  console.log('DOM加载完成')
+  window.addEventListener('keyup', (e) => {
+    // @ts-ignore (define in dts)
+    electronAPI.ipcRenderer.send('keyUp', {
+      key: e.key,
+      code: e.code
+    })
+  })
+  window.addEventListener('keydown', (e) => {
+    // @ts-ignore (define in dts)
+    electronAPI.ipcRenderer.send('keyDown', {
+      key: e.key,
+      code: e.code
+    })
+  })
+})
