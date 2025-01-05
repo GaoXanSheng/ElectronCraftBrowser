@@ -31,7 +31,7 @@ document.addEventListener('DOMContentLoaded', function () {
   })
   window.addEventListener('keydown', (e) => {
     // @ts-ignore (define in dts)
-    electronAPI.ipcRenderer.send('keyDown', {
+    electronAPI.ipcRenderer.send('key' + 'Down', {
       key: e.key,
       code: e.code
     })
