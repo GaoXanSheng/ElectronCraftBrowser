@@ -20,7 +20,12 @@ class Server {
         // Convert Base64 string to 'utf8' string using Buffer
         const buffer = Buffer.from(res.toString(), 'base64')
         const decodedString = buffer.toString('utf8')
-        this.Handler(JSON.parse(decodedString))
+        try {
+          this.Handler(JSON.parse(decodedString))
+        } catch (e) {
+          console.log(e)
+          console.log(decodedString)
+        }
       })
       this.Client.on('error', () => {
         this.Client = null
