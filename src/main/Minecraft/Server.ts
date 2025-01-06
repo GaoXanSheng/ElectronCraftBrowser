@@ -24,7 +24,6 @@ class Server {
           this.Handler(JSON.parse(decodedString))
         } catch (e) {
           console.log(e)
-          console.log(decodedString)
         }
       })
       this.Client.on('error', () => {

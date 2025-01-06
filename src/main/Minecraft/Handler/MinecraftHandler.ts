@@ -14,6 +14,12 @@ const MinecraftHandler = {
   loadFile() {
     if (browser == null) return;
     browser.loadFile();
+    server.sendHandler({
+      ComeFrom: "Node",
+      Data: "",
+      Reach: "Minecraft",
+      Type: "LoadFile"
+    });
   },
   openDevTools(_data: never): void {
     if (browser == null) return;
