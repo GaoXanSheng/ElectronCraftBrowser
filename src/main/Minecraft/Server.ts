@@ -17,11 +17,9 @@ class Server {
     const server = createServer((socket) => {
       this.Client = socket
       this.Client.on('data', (res) => {
-        // Convert Base64 string to 'utf8' string using Buffer
-        const buffer = Buffer.from(res.toString(), 'base64')
-        const decodedString = buffer.toString('utf8')
         try {
-          this.Handler(JSON.parse(decodedString))
+          const decoded = JSON.parse(res.toString())
+          this.Handler(decoded)
         } catch (e) {
           console.log(e)
         }
