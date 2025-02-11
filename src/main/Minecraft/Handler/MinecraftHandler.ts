@@ -10,6 +10,12 @@ const MinecraftHandler = {
   loadUrl(s: string) {
     if (browser == null) return;
     browser.loadURL(s);
+    server.sendHandler({
+      ComeFrom: "Node",
+      Data: "",
+      Reach: "Minecraft",
+      Type: "LoadUrl"
+    });
   },
   loadFile() {
     if (browser == null) return;
