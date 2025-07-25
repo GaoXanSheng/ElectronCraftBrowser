@@ -7,6 +7,9 @@ import Browser from './electron/Browser'
 const server = new Server()
 let browser: Browser | null = null
 let browserInit = false
+
+app.commandLine.appendSwitch('use-gl = desktop')
+
 app.whenReady().then(() => {
   browser = new Browser()
   browser.GetBrowser().setIcon(icon)

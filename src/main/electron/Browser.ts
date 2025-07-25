@@ -5,19 +5,19 @@ import { is } from '@electron-toolkit/utils'
 
 class Browser {
   private browser = new BrowserWindow({
-    width: 1,
-    height: 1,
+    width: 800,
+    height: 600,
     x: 0,
     y: 0,
     title: 'ElectronCraftBrowser',
     opacity: 1,
     resizable: false,
-    skipTaskbar: true,
-    alwaysOnTop: true,
-    transparent: true,
+    skipTaskbar: false,
+    alwaysOnTop: false,
+    transparent: false,
     focusable: true,
     modal: false,
-    frame: false,
+    frame: true,
     // roundedCorners: false,
     thickFrame: false,
     hasShadow: false,
@@ -40,11 +40,14 @@ class Browser {
 
   public loadFile(): void {
     if (is.dev && process.env['ELECTRON_RENDERER_URL']) {
-      this.browser.loadURL(process.env['ELECTRON_RENDERER_URL']).then(() => {
-        this.browser.webContents.openDevTools({
-          mode: 'detach' // Optional, place developer tools in a separate window
+      this.browser
+        .loadURL('chrome://gpu')
+        // this.browser.loadURL(process.env['ELECTRON_RENDERER_URL'])
+        .then(() => {
+          this.browser.webContents.openDevTools({
+            mode: 'detach' // Optional, place developer tools in a separate window
+          })
         })
-      })
     } else {
       this.browser.loadFile(join(__dirname, '../renderer/index.html')).then(() => {})
     }
@@ -53,12 +56,15 @@ class Browser {
   public setSize(width: number, height: number): void {
     const primaryDisplay = screen.getPrimaryDisplay()
     const scaleFactor = primaryDisplay.scaleFactor
-    this.browser.setContentBounds({
-      height: height / scaleFactor,
-      width: width / scaleFactor,
-      x: 0,
-      y: 0
-    })
+    this.browser.setContentBounds(
+      {
+        height: height / scaleFactor,
+        width: width / scaleFactor,
+        x: 0,
+        y: 0
+      },
+      false
+    )
   }
 
   public setIgnoreMouseEvents(b: boolean): void {
@@ -66,7 +72,7 @@ class Browser {
   }
 
   public loadURL(url: string): void {
-    this.browser.loadURL(url)
+    this.browser.webContents.loadURL(url)
   }
 
   public GetBrowser(): BrowserWindow {
